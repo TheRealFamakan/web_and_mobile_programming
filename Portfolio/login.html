@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        .popup {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: fixed;
+            z-index: 1;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .popup.show {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <span class="error" id="firstNameError"></span>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <span class="error" id="lastNameError"></span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <span class="error" id="emailError"></span>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <span class="error" id="passwordError"></span>
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" required>
+            <span class="error" id="phoneError"></span>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <span class="error" id="genderError"></span>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+            <span class="error" id="dobError"></span>
+
+            <label for="picture">Picture:</label>
+            <input type="file" id="picture" name="picture" required>
+            <span class="error" id="pictureError"></span>
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+
+    <div id="welcomePopup" class="popup">
+        <span class="popuptext" id="popupText">Welcome to the website!</span>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let isValid = true;
+
+            // Validate First Name
+            const firstName = document.getElementById('firstName').value;
+            if (!firstName) {
+                isValid = false;
+                document.getElementById('firstNameError').textContent = 'First name is required';
+            } else {
+                document.getElementById('firstNameError').textContent = '';
+            }
+
+            // Validate Last Name
+            const lastName = document.getElementById('lastName').value;
+            if (!lastName) {
+                isValid = false;
+                document.getElementById('lastNameError').textContent = 'Last name is required';
+            } else {
+                document.getElementById('lastNameError').textContent = '';
+            }
+
+            // Validate Email
+            const email = document.getElementById('email').value;
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(email)) {
+                isValid = false;
+                document.getElementById('emailError').textContent = 'Invalid email address';
+            } else {
+                document.getElementById('emailError').textContent = '';
+            }
+
+            // Validate Password
+            const password = document.getElementById('password').value;
+            if (password.length < 6) {
+                isValid = false;
+                document.getElementById('passwordError').textContent = 'Password must be at least 6 characters';
+            } else {
+                document.getElementById('passwordError').textContent = '';
+            }
+
+            // Validate Phone Number
+            const phone = document.getElementById('phone').value;
+            const phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                isValid = false;
+                document.getElementById('phoneError').textContent = 'Invalid phone number';
+            } else {
+                document.getElementById('phoneError').textContent = '';
+            }
+
+            // Validate Gender
+            const gender = document.getElementById('gender').value;
+            if (!gender) {
+                isValid = false;
+                document.getElementById('genderError').textContent = 'Gender is required';
+            } else {
+                document.getElementById('genderError').textContent = '';
+            }
+
+            // Validate Date of Birth
+            const dob = document.getElementById('dob').value;
+            if (!dob) {
+                isValid = false;
+                document.getElementById('dobError').textContent = 'Date of birth is required';
+            } else {
+                document.getElementById('dobError').textContent = '';
+            }
+
+            // Validate Picture
+            const picture = document.getElementById('picture').files[0];
+            if (!picture) {
+                isValid = false;
+                document.getElementById('pictureError').textContent = 'Picture is required';
+            } else {
+                document.getElementById('pictureError').textContent = '';
+            }
+
+            // Check if email is already registered
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const emailExists = users.some(user => user.email === email);
+            if (emailExists) {
+                isValid = false;
+                document.getElementById('emailError').textContent = 'Email is already registered';
+            }
+
+            if (isValid) {
+                // Store user in localStorage
+                const newUser = {
+                    firstName,
+                    lastName,
+                    email,
+                    password,
+                    phone,
+                    gender,
+                    dob,
+                    picture: picture.name
+                };
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+
+                // Show welcome pop-up
+                const popup = document.getElementById('welcomePopup');
+                popup.classList.add('show');
+                setTimeout(() => {
+                    popup.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
