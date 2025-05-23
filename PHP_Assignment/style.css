@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url(img.png);
+    background-position: center;
+    background-size: cover;
+}
+
+form{
+    background-color: transparent;
+    padding:30px;
+    width: 420px;
+    border-radius: 20px;
+    border: 2px solid rgb(255, 255, 255,0.2);
+    backdrop-filter: blur(20px);
+}
+
+form h1{
+    font-size: 30px;
+    color: #efff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-box{
+    width: 100%;
+    position:relative;
+    margin-bottom: 25px;
+}
+
+.input-box input{
+    width: 100%;
+    padding: 10px;
+    border-radius:25px;
+    background-color: transparent;
+    outline: none;
+    border: 2px solid rgb(255, 255, 255, 0.2);
+    color: #efff;
+    padding-right: 40px;
+}
+
+.input-box input::placeholder{
+    color:#efff;
+}
+
+.sirr-btn {
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.5s;
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    color: white;
+    background-color: white; 
+}
+
+.sirr-btn:hover {
+    background-color: #019875; 
+}
